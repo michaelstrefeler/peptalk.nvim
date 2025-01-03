@@ -3,6 +3,7 @@
 Need a pep talk while programming with NeoVim? This is the plugin for you!
 
 > Inspired by the Halls cough drops "A Pep Talk in Every Drop" campaign
+
 ## Installation
 
  - Using [lazy.nvim](https://github.com/folke/lazy.nvim)
@@ -18,7 +19,7 @@ Need a pep talk while programming with NeoVim? This is the plugin for you!
     }
 }
 ```
-Or if you use one file per plugin (like me):
+Or, if you use one file per plugin (like me):
 
 ```lua
 return {
