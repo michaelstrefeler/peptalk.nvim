@@ -5,6 +5,7 @@ Need a pep talk while programming with NeoVim? This is the plugin for you!
 Get motivation right in NeoVim in the form of a message in a notification or a popup (and then get back to coding)!
 
 Disclaimer : I found most of these "motivational message" online and do not claim to be the muse behind any of them. 
+
 > Inspired by the Halls cough drops "A Pep Talk in Every Drop" campaign
 
 ## Installation
@@ -14,12 +15,10 @@ Disclaimer : I found most of these "motivational message" online and do not clai
 ```lua
 {
   "michaelstrefeler/peptalk.nvim",
-  -- Default config is shown
   opts = {
       messages_file = "path/to/your/messages.csv" -- Optional: override of messages file
-      keymap_print = "<leader>mm" -- mm = motivate me
-      keymap_popup = "<leader>mM"
-    }
+      keymap = "<leader>mm" -- Default keymap
+  }
 }
 ```
 Or, if you use one file per plugin (like me):
@@ -28,10 +27,9 @@ Or, if you use one file per plugin (like me):
 return {
   "michaelstrefeler/peptalk.nvim",
   opts = {
-      messages_file = "path/to/your/messages.csv"
-      keymap_print = "<leader>mm"
-      keymap_popup = "<leader>mM"
-    }
+      messages_file = "path/to/your/messages.csv" -- Optional: override of messages file
+      keymap = "<leader>mm" -- Default keymap
+  }
 }
 ```
 - Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
@@ -53,6 +51,6 @@ Plug 'michaelstrefeler/peptalk.nvim'
 ## Usage
 
 After installation:
-1. Run `:PepTalk` to print a motivational message (as a notification) or `:PepTalkPopup` to open a message as a popup (in a small window)
-2. Or use either one of the keymaps (by default `<leader>mm` and `<leader>mM` respectively)
+1. Run `:PepTalk` to print a motivational message (in a small window)
+2. Or use either the keymap (by default `<leader>mm`)
 3. Return to coding invigorated by the motivational message that you just read!

@@ -31,7 +31,27 @@ function M.load_messages(file_path)
 	file:close()
 end
 
--- Print the motivational message
+-- Wrap text so it fits the space better
+local function wrap_text(text, width)
+	local lines = {}
+	for line in text:gmatch("[^\n]+") do
+		local current_line = ""
+		for word in line:gmatch("%S+") do
+			if #current_line + #word + 1 > width then
+				table.insert(lines, current_line)
+				current_line = word
+			else
+				current_line = current_line == "" and word or current_line .. " " .. word
+			end
+		end
+		if current_line ~= "" then
+			table.insert(lines, current_line)
+		end
+	end
+	return lines
+end
+
+-- Display the motivational message in a popup
 function M.motivate()
 	if #M.messages == 0 then
 		vim.notify("No motivational messages loaded!", vim.log.levels.WARN)
@@ -39,24 +59,25 @@ function M.motivate()
 	end
 
 	local message = M.messages[math.random(#M.messages)]
-	print(message)
-end
 
--- Display the motivational message in a popup
-function M.motivate_popup()
-	if #M.messages == 0 then
-		vim.notify("No motivational messages loaded!", vim.log.levels.WARN)
-		return
-	end
+	local width = 80
 
-	local message = M.messages[math.random(#M.messages)]
+	-- Wrap the message
+	local wrapped_message = wrap_text(message, width)
+	wrapped_message[1] = " " .. wrapped_message[1]
 
 	-- Define the popup window options
 	local buf = vim.api.nvim_create_buf(false, true) -- Create a scratch buffer
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { message })
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, wrapped_message)
 
-	local win_width = #message + 4
+	local win_width = nil
+	if #message < width then
+		win_width = #message + 4
+	else
+		win_width = width + 4
+	end
 	local win_height = 3
+
 	local row = math.floor((vim.o.lines - win_height) / 2)
 	local col = math.floor((vim.o.columns - win_width) / 2)
 
@@ -74,7 +95,7 @@ function M.motivate_popup()
 	vim.defer_fn(function()
 		vim.api.nvim_win_close(win_id, true)
 		vim.api.nvim_buf_delete(buf, { force = true })
-	end, 1500) -- 1500 ms = 1.5 seconds
+	end, 5000) -- 5000 ms = 5 seconds
 end
 
 -- Set up the plugin
@@ -86,20 +107,13 @@ function M.setup(opts)
 	M.load_messages(file_path)
 
 	-- Set up key mappings
-	local keymap_print = opts.keymap_print or "<leader>mm" -- Print message
-	local keymap_popup = opts.keymap_popup or "<leader>mM" -- Popup message
+	local keymap = opts.keymap or "<leader>mm" -- mm = motivate me
 
 	-- Create user commands
 	vim.api.nvim_create_user_command("PepTalk", M.motivate, {})
-	vim.api.nvim_create_user_command("PepTalkPopup", M.motivate_popup, {})
 
-	-- Create key mappings
-	vim.keymap.set("n", keymap_print, M.motivate, {
-		desc = "Print a motivational message",
-		silent = true,
-	})
-
-	vim.keymap.set("n", keymap_popup, M.motivate_popup, {
+	-- Create key mapping
+	vim.keymap.set("n", keymap, M.motivate, {
 		desc = "Show a motivational message in a popup",
 		silent = true,
 	})
