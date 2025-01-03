@@ -2,7 +2,7 @@
 
 Need a pep talk while programming with NeoVim? This is the plugin for you!
 
-Get motivation right in NeoVim in the form of a message in a notification or a popup (and then get back to coding)!
+Get motivation right in NeoVim in the form of a message in a popup (and then get back to coding)!
 
 Disclaimer : I found most of these "motivational message" online and do not claim to be the muse behind any of them. 
 
