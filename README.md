@@ -52,5 +52,5 @@ Plug 'michaelstrefeler/peptalk.nvim'
 
 After installation:
 1. Run `:PepTalk` to print a motivational message (in a small window)
-2. Or use either the keymap (by default `<leader>mm`)
+2. Or use the keymap (by default `<leader>mm`)
 3. Return to coding invigorated by the motivational message that you just read!
