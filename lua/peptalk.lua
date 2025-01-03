@@ -6,10 +6,10 @@ M.messages = {}
 
 -- Load messages from the file at file_path
 function M.load_messages(file_path)
-	-- If no file path is provided, use the default within the plugin directory
-	if not file_path then
+	-- Add plugin_dir to default path
+	if file_path == "../data/messages.csv" then
 		local plugin_dir = debug.getinfo(1, "S").source:match("@(.*/)") or "./"
-		file_path = plugin_dir .. "../data/messages.csv"
+		file_path = plugin_dir .. file_path
 	end
 
 	local file = io.open(file_path, "r")
@@ -60,7 +60,7 @@ function M.motivate_popup()
 	local row = math.floor((vim.o.lines - win_height) / 2)
 	local col = math.floor((vim.o.columns - win_width) / 2)
 
-	vim.api.nvim_open_win(buf, true, {
+	local win_id = vim.api.nvim_open_win(buf, true, {
 		relative = "editor",
 		width = win_width,
 		height = win_height,
@@ -72,8 +72,9 @@ function M.motivate_popup()
 
 	-- Close the popup automatically after a short delay
 	vim.defer_fn(function()
+		vim.api.nvim_win_close(win_id, true)
 		vim.api.nvim_buf_delete(buf, { force = true })
-	end, 3000) -- 3000 ms = 3 seconds
+	end, 1500) -- 1500 ms = 1.5 seconds
 end
 
 -- Set up the plugin
@@ -81,7 +82,7 @@ function M.setup(opts)
 	opts = opts or {}
 
 	-- Load messages from the provided file path
-	local file_path = opts.messages_file or "messages.csv"
+	local file_path = opts.messages_file or "../data/messages.csv"
 	M.load_messages(file_path)
 
 	-- Set up key mappings
