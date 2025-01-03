@@ -13,7 +13,7 @@ Need a pep talk while programming with NeoVim? This is the plugin for you!
   "michaelstrefeler/peptalk.nvim",
   -- Default config is shown
   opts = {
-      messages_file = "/data/messages.csv"
+      messages_file = "path/to/your/messages.csv" -- Optional: override of messages file
       keymap_print = "<leader>mm" -- mm = motivate me
       keymap_popup = "<leader>mM"
     }
@@ -25,7 +25,7 @@ Or, if you use one file per plugin (like me):
 return {
   "michaelstrefeler/peptalk.nvim",
   opts = {
-      messages_file = "/data/messages.csv"
+      messages_file = "path/to/your/messages.csv"
       keymap_print = "<leader>mm"
       keymap_popup = "<leader>mM"
     }
